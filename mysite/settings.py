@@ -133,12 +133,13 @@ STATIC_URL = '/static/'
 try:
     from .local_settings import *
 except ImportError:
+    SECRET_KEY = os.environ['SECRET_KEY']
     pass
 
 if not DEBUG:
     import dj_database_url
     import django_heroku
-    SECRET_KEY = os.environ['SECRET_KEY']
+    
     db_from_env = dj_database_url.config(conn_max_age=600, ssl_require=True)
     DATABASES['default'].update(db_from_env)
     django_heroku.settings(locals())
